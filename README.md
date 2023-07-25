@@ -74,7 +74,7 @@ Enter the password.
         "id": "eth1",
         "enabled": true,
         "coin": "ethereum",
-        "address": <pool ocash address>
+        "address": "<pool ocash address>",
         "rewardRecipients": [
           {
             "type": "op",
@@ -137,11 +137,13 @@ Run docker and wait.
 ```bash
 
 cd ~/ocash-mining-pool/
+```
 
+```bash
 sudo apt install docker-compose
-
+```
+```bash
 sudo docker-compose up
-
 ```
 
 *I will upload two methods for front-end settings when I have time. If you are in a hurry, please refer to the front-end installation method in this link:
