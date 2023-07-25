@@ -31,7 +31,6 @@ services:
       - 30303:30303
     command:
       [
-        "--nousb",
         "--rpc.allow-unprotected-txs",
         "--http",
         "--http.addr=0.0.0.0",
@@ -40,7 +39,7 @@ services:
         "--http.vhosts=*",
         "--allow-insecure-unlock",
         "--unlock=${POOL_ADDRESS}",
-        "--password=/root/.ethereum/password",
+        "--password=${KEYSTORE_PASSWORD_FILE_PATH}",
         "--ws",
         "--ws.addr=0.0.0.0",
         "--ws.origins=*",
@@ -57,7 +56,7 @@ services:
         # "--miner.gaslimit=500000000000",
         # "--override.terminaltotaldifficulty=500000000000000000",
         # "--override.terminaltotaldifficultypassed=false",
-        "--bootnodes=enode://2f6344757e50dddcca587c7463254881bbab6307722e712000745a4d4ef57cefba7d58d27cf67106babb5817c5fdd747e9d320bc4bcbfe520aa159d1e35a82f4@207.246.78.80:30303",
+        "--bootnodes=enode://b164ae2b30e39642a3e1c22e545f92b34a7ff6047d9a3a14e99598ec17896d9f6512ce40a326fdd1574485a597d419a28d53b70de18ba324efada01c7050da6a@82.180.163.50:30304",
         # "--cache=8192",
         # "--metrics",
         # "--maxpeers=30",
@@ -65,7 +64,7 @@ services:
     volumes:
       - geth-data:/root/.ethereum
       - ${KEYSTORE_DIR_PATH}:/root/.ethereum/keystore
-      - ${KEYSTORE_PASSWORD_FILE_PATH}:/root/.ethereum/password
+      - ${KEYSTORE_PASSWORD_FILE_PATH}:/root/.ethereum/.pw:ro
 
   miningcore:
     # uncomment to run on macOS arm
@@ -81,6 +80,7 @@ services:
       - ./config/config.json:/config.json
       - ${POOL_TLS_CERT_PATH}:/var/lib/certs/cert.pfx:ro
       - miningcore-data:/usr/local/miningcore-data/
+      - ./config/coins.json:/usr/local/miningcore/coins.json
     command:
       [
         "-c /config.json",
