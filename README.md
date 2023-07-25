@@ -26,7 +26,7 @@ Install git and open .env to edit its content:
 ```bash
 sudo apt install git
 
-git clone https://github.com/overliner/ocash-mining-pool.git
+git clone https://github.com/JSY3456/ocash-mining-pool.git
 
 cd ocash-mining-pool
 
