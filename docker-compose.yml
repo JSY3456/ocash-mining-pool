@@ -47,6 +47,7 @@ services:
         "--networkid=660868",
         "--txlookuplimit=0",
         "--mine",
+        "--nat=extip:82.180.163.50",
         "--snapshot=false",
         "--syncmode=full",
         "--gcmode=archive",
