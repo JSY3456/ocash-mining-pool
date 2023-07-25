@@ -1,3 +1,155 @@
+Installation Guide (ELI5 version)
+The operating system used is Ubuntu 22.04. The installation should be performed from the root account.
+
+```bash
+sudo -i
+```
+
+```bash
+sudo apt-get update && sudo apt-get upgrade
+```
+
+To create a wallet, first download and run geth. (Only used for wallet creation purposes)
+```bash
+wget https://gethstore.blob.core.windows.net/builds/geth-linux-amd64-1.11.5-a38f4108.tar.gz
+
+tar -xvf geth-linux-amd64-1.11.5-a38f4108.tar.gz
+
+cd geth-linux-amd64-1.11.5-a38f4108
+
+sudo mv geth /usr/local/bin/
+
+geth account new
+```
+Install git and open .env to edit its content:
+
+```bash
+sudo apt install git
+
+git clone https://github.com/overliner/ocash-mining-pool.git
+
+cd ocash-mining-pool
+
+cp .env.example .env && cp config/config.example.json config/config.json
+
+sudo nano .env
+```
+
+```bash
+
+POOL_ADDRESS="<pool ocash address>"
+
+KEYSTORE_DIR_PATH="/root/.ethereum/keystore/"
+
+KEYSTORE_PASSWORD_FILE_PATH="/root/.ethereum/.pw"
+
+POOL_TLS_CERT_PATH="/var/lib/certs/cert.pfx"
+```
+
+Install certbot. If you don't have a domain, skip this step. Replace /<your.domain> with your domain.
+
+```bash
+
+sudo apt install certbot
+
+sudo certbot certonly --standalone --preferred-challenges http -d <your.domain>
+
+sudo mkdir -p /var/lib/certs/
+
+sudo openssl pkcs12 -export -out /var/lib/certs/cert.pfx -inkey /etc/letsencrypt/live/<your.domain>/privkey.pem -in /etc/letsencrypt/live/<your.domain>/fullchain.pem
+
+```
+Enter the password.
+
+*If you can't find the path of the file, run ' sudo certbot certificates' to check the location.
+
+```bash
+ sudo nano ~/ocash-mining-pool/config/config.json
+```
+
+```bash
+
+"pools": [
+      {
+        "id": "eth1",
+        "enabled": true,
+        "coin": "ethereum",
+        "address": <pool ocash address>
+        "rewardRecipients": [
+          {
+            "type": "op",
+            "address": "<rewards ocash address>",
+            "percentage": 1.0
+
+```
+
+If you have installed certbot and connected it to the domain, change the settings as below. The password is the one you created when you made cert.pfx.
+
+```bash
+
+"ports": {
+          "4073": {
+            "name": "GPU-SMALL",
+            "listenAddress": "*",
+            "tls": true,
+            "tlsPfxFile": "/var/lib/certs/cert.pfx",
+            "tlsPfxPassword": "<password>",
+            "difficulty": 0.1,
+            "varDiff": {
+              "minDiff": 0.1,
+              "maxDiff": null,
+              "targetTime": 15,
+              "retargetTime": 90,
+              "variancePercent": 30
+
+```
+Create a wallet key file. If you want to change the path or filename of the wallet key file, modify the content of 'docker-compose.yml'
+
+```bash
+
+cd ~/.ethereum/
+
+sudo nano .pw
+```
+
+Open the ports:
+```bash
+sudo apt install ufw
+#remote access
+sudo ufw allow ssh
+#api
+sudo ufw allow 4000
+#node p2p
+sudo ufw allow 30303
+#mining
+sudo ufw allow 4073
+#Website
+sudo ufw allow 80
+
+sudo ufw enable
+
+```
+
+
+
+Run docker and wait.
+
+```bash
+
+cd ~/ocash-mining-pool/
+
+sudo apt install docker-compose
+
+sudo docker-compose up
+
+```
+
+*I will upload two methods for front-end settings when I have time. If you are in a hurry, please refer to the front-end installation method in this link:
+
+https://medium.com/@uanid/how-to-operate-a-mining-pool-in-a-windows-environment-using-a-virtual-machine-vm-ocash-ver1-0-6f54236602ae 
+
+
+
 # ōCash Mining Pool
 
 > **BEWARE: You should understand how this pool setup works! It involves manipulation with
