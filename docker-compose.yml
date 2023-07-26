@@ -65,7 +65,7 @@ services:
     volumes:
       - geth-data:/root/.ethereum
       - ${KEYSTORE_DIR_PATH}:/root/.ethereum/keystore
-      - ${KEYSTORE_PASSWORD_FILE_PATH}:/root/.ethereum/.pw:ro
+      - ${KEYSTORE_PASSWORD_FILE_PATH}:/root/.ethereum/pw.txt:ro
 
   miningcore:
     # uncomment to run on macOS arm
