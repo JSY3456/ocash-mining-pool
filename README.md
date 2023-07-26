@@ -41,7 +41,7 @@ POOL_ADDRESS="<pool ocash address>"
 
 KEYSTORE_DIR_PATH="/root/.ethereum/keystore/"
 
-KEYSTORE_PASSWORD_FILE_PATH="/root/.ethereum/.pw"
+KEYSTORE_PASSWORD_FILE_PATH="/root/.ethereum/pw.txt"
 
 POOL_TLS_CERT_PATH="/var/lib/certs/cert.pfx"
 ```
@@ -109,7 +109,7 @@ Create a wallet key file. If you want to change the path or filename of the wall
 
 cd ~/.ethereum/
 
-sudo nano .pw
+sudo nano pw.txt
 ```
 
 Open the ports:
@@ -146,9 +146,35 @@ sudo apt install docker-compose
 sudo docker-compose up
 ```
 
+
+*[**Simplified Installation ver.] Please use Ubuntu 22.04 version / Run as ROOT user
+Note: This is a version designed for those who really want to install, but are unsure of where to start or how to proceed, or for those who want to at least give it a try (or for those who are in urgent need of installation).
+Operating a mining pool requires a basic knowledge of command input and an understanding of where your wallet and files are located through the installation process. Therefore, manual installation is highly recommended.
+Generally, no one knows what pitfalls might exist in such automated command input (shell scripts). This is a warning not to become too accustomed to shell scripts made by others.
+
+```bash
+sudo -i
+```
+
+```bash
+wget https://gist.githubusercontent.com/JSY3456/16378bceae60636716c5f270a8bb6a6a/raw/86d480c297df06baaa340d927142cc25cb044929/start.sh
+chmod +x start.sh
+./start.sh
+```
+
+During the installation process, you will be asked to write the password for the wallet twice. The first is the password input through Ethereum's 'geth account new',
+
+The second is the process of creating a password file during the process of saving the password in a text document, so that the mining core can automatically provide rewards to the miners.
+
+
+
+
+
+
 *I will upload two methods for front-end settings when I have time. If you are in a hurry, please refer to the front-end installation method in this link:
 
 https://medium.com/@uanid/how-to-operate-a-mining-pool-in-a-windows-environment-using-a-virtual-machine-vm-ocash-ver1-0-6f54236602ae 
+
 
 
 
